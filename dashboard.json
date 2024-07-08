@@ -133,7 +133,7 @@
       "id": 4,
       "options": {
         "afterRender": "",
-        "content": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n</head>\n\n<body>\n  <div class=\"container\">\n    <div class=\"title\">Zabbix Agent</div>\n    <div class=\"status\">\n      STATUS DO AGENT:\n      <span class=\"value {{#if (eq data.[1].Value 1)}}up{{else}}down{{/if}}\">\n              {{#if (eq data.[1].Value 1)}}UP{{else}}DOWN{{/if}}\n          </span>\n    </div>\n  </div>\n</body>\n\n</html>",
+        "content": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n</head>\n\n<body>\n  <div class=\"container\">\n    <div class=\"title\">Zabbix Agent</div>\n    <div class=\"status\">\n      STATUS DO AGENT:\n      <span class=\"value {{#if (eq data.[0].Value 1)}}up{{else}}down{{/if}}\">\n        {{#if (eq data.[0].Value 1)}}\n        UP\n        {{else}}\n        DOWN\n        {{/if}}\n          </span>\n    </div>\n  </div>\n</body>\n\n</html>",
         "defaultContent": "The query didn't return any results.",
         "editor": {
           "format": "auto",
@@ -145,6 +145,7 @@
         "externalStyles": [],
         "helpers": "",
         "renderMode": "allRows",
+        "status": "Value",
         "styles": "body {\r\n      margin: 0;\r\n      padding: 0;\r\n      font-family: Arial, sans-serif;\r\n  }\r\n  \r\n  .container {\r\n      display: flex;\r\n      justify-content: space-between;\r\n      align-items: center;\r\n      background: linear-gradient(90deg, #1f1f1f, #3c3c3c);\r\n      padding: 20px;\r\n      border-radius: 10px;\r\n      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\r\n  }\r\n\r\n  .title {\r\n      font-size: 2rem;\r\n      font-weight: bold;\r\n      color: #ffffff;\r\n      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);\r\n  }\r\n\r\n  .status {\r\n      font-size: 1.5rem;\r\n      color: #ffffff;\r\n      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);\r\n  }\r\n\r\n  .value {\r\n      padding: 5px 15px;\r\n      border-radius: 5px;\r\n  }\r\n\r\n  .value.up {\r\n      background-color: #00ff00; /* Green for UP */\r\n      color: #000; /* Black text */\r\n  }\r\n\r\n  .value.down {\r\n      background-color: #ff0000; /* Red for DOWN */\r\n      color: #fff; /* White text */\r\n  }",
         "wrap": true
       },
@@ -231,7 +232,7 @@
           "key": "",
           "plugin": "AMap.Scale,AMap.ToolBar"
         },
-        "getOption": "const series = context.panel.data.series.map((s) => {\n  const sData = s.fields.find((f) => f.type === 'number').values.buffer || s.fields.find((f) => f.type === 'number').values;\n\n  const average = sData.reduce((sum, value) => sum + value, 0) / sData.length;\n\n  const adjustedValue = average / 100;\n\n  return {\n    type: 'liquidFill',\n    radius: '90%',\n    data: [adjustedValue],\n    name: s.refId,\n    backgroundStyle: {\n      borderWidth: 5,\n      color: 'pink'\n    },\n    shape: 'circle',\n    outline: {\n      show: false\n    },\n    backgroundStyle: {\n      borderColor: '#156ACF',\n      borderWidth: 1,\n      shadowColor: 'rgba(0, 0, 0, 0.4)',\n      shadowBlur: 20\n    },\n    label: {\n      position: ['50%', '20%'],\n      formatter: function () {\n      },\n      fontSize: 40,\n      color: 'blue'\n    }\n  };\n});\n\nconst imageUrl = 'https://media.licdn.com/dms/image/C5612AQH1NEHKfVAquw/article-cover_image-shrink_720_1280/0/1580336512966?e=2147483647&v=beta&t=XoyKtkmo3OXIOHstUhx3Ei2P10ESszevkPWBd_SQYSs'; // Caminho da sua imagem\n\nconst option = {\n  backgroundColor: 'transparent',\n  tooltip: {\n    show: false\n  },\n  series: series\n};\n\n// Adicionando uma imagem ao centro do gráfico de preenchimento líquido\noption.graphic = {\n  elements: [{\n    type: 'image',\n    style: {\n      image: imageUrl,\n      width: 100,\n      height: 100\n    },\n    left: 'center',\n    top: 'center'\n  }]\n};\n\nreturn option;\n",
+        "getOption": "const series = context.panel.data.series.map((s) => {\n  const sData = s.fields.find((f) => f.type === 'number').values.buffer || s.fields.find((f) => f.type === 'number').values;\n\n  const average = sData.reduce((sum, value) => sum + value, 0) / sData.length;\n\n  const adjustedValue = average / 100;\n\n  return {\n    type: 'liquidFill',\n    radius: '90%',\n    data: [adjustedValue],\n    name: s.refId,\n    backgroundStyle: {\n      borderWidth: 5,\n      color: 'pink'\n    },\n    shape: 'circle',\n    outline: {\n      show: false\n    },\n    backgroundStyle: {\n      borderColor: '#156ACF',\n      borderWidth: 1,\n      shadowColor: 'rgba(0, 0, 0, 0.4)',\n      shadowBlur: 20\n    },\n    label: {\n      position: ['50%', '20%'],\n      formatter: function () {\n      },\n      fontSize: 40,\n      color: '#D94854'\n    }\n  };\n});\n\nconst imageUrl = 'https://media.licdn.com/dms/image/C5612AQH1NEHKfVAquw/article-cover_image-shrink_720_1280/0/1580336512966?e=2147483647&v=beta&t=XoyKtkmo3OXIOHstUhx3Ei2P10ESszevkPWBd_SQYSs'; // Caminho da sua imagem\n\nconst option = {\n  backgroundColor: 'transparent',\n  tooltip: {\n    show: false\n  },\n  series: series\n};\n\n// Adicionando uma imagem ao centro do gráfico de preenchimento líquido\noption.graphic = {\n  elements: [{\n    type: 'image',\n    style: {\n      image: imageUrl,\n      width: 100,\n      height: 100\n    },\n    left: 'center',\n    top: 'center'\n  }]\n};\n\nreturn option;\n",
         "google": {
           "callback": "gmapReady",
           "key": ""
@@ -516,13 +517,13 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Volks",
   "uid": "edr27imi26sjke",
-  "version": 18,
+  "version": 23,
   "weekStart": ""
 }
