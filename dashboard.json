@@ -133,7 +133,7 @@
       "id": 4,
       "options": {
         "afterRender": "",
-        "content": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n</head>\n\n<body>\n  <div class=\"container\">\n    <div class=\"title\">Zabbix Agent</div>\n    <div class=\"status\">\n      STATUS DO AGENT:\n      <span class=\"value {{#if (eq data.[0].Value 1)}}up{{else}}down{{/if}}\">\n        {{#if (eq data.[0].Value 1)}}\n        UP\n        {{else}}\n        DOWN\n        {{/if}}\n          </span>\n    </div>\n  </div>\n</body>\n\n</html>",
+        "content": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Zabbix Agent Status</title>\n  <style>\n    .up {\n      color: green;\n    }\n\n    .down {\n      color: red;\n    }\n  </style>\n</head>\n\n<body>\n  <div class=\"container\">\n    <div class=\"title\">Zabbix Agent</div>\n    <div class=\"status\">\n      STATUS DO AGENT:\n      {{#each data}}\n      {{#if @last}}\n      {{#if (eq Value 1)}}\n      <span class=\"value up\">UP</span>\n      {{else}}\n      <span class=\"value down\">DOWN</span>\n      {{/if}}\n      {{/if}}\n      {{/each}}\n    </div>\n  </div>\n</body>\n\n</html>",
         "defaultContent": "The query didn't return any results.",
         "editor": {
           "format": "auto",
@@ -524,6 +524,6 @@
   "timezone": "browser",
   "title": "Volks",
   "uid": "edr27imi26sjke",
-  "version": 23,
+  "version": 24,
   "weekStart": ""
 }
